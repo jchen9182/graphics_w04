@@ -68,7 +68,6 @@ void draw_lines( struct matrix * points, screen s, color c) {
 }// end draw_lines
 
 void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
-
     int x, y, d, A, B;
     //swap points if going right -> left
     int xt, yt;
@@ -141,7 +140,7 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
             } //end octant 2 while
             plot( s, c, x1, y1 );
         } //end octant 2
-        
+
         //octant 7
         else {
             d = A/2 - B;
@@ -159,3 +158,10 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
         } //end octant 7
     }//end octants 2 and 7
 } //end draw_line
+
+//======== void change_color() ==========
+void change_color(color * c, int r, int g, int b) {
+    c->red = r;
+    c->green = g;
+    c->blue = b;
+}

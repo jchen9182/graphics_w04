@@ -22,7 +22,7 @@ Returns: The translation matrix created using x, y and z
 as the translation offsets.
 ====================*/
 struct matrix * make_translate(double x, double y, double z) {
-    struct * matrix m = new_matrix(4, 4);
+    struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
     matrix[0][0] = x;
@@ -39,7 +39,7 @@ Returns: The translation matrix creates using x, y and z
 as the scale factors
 ====================*/
 struct matrix * make_scale(double x, double y, double z) {
-    struct * matrix m = new_matrix(4, 4);
+    struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
     matrix[0][3] = x;
@@ -55,7 +55,7 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and X as the axis of rotation.
 ====================*/
 struct matrix * make_rotX(double theta) {
-    struct * matrix m = new_matrix(4, 4);
+    struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
     double sine = sin(theta);
@@ -74,7 +74,7 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and Y as the axis of rotation.
 ====================*/
 struct matrix * make_rotY(double theta) {
-    struct * matrix m = new_matrix(4, 4);
+    struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
     double sine = sin(theta);
@@ -93,7 +93,7 @@ Returns: The rotation matrix created using theta as the
 angle of rotation and Z as the axis of rotation.
 ====================*/
 struct matrix * make_rotZ(double theta) {
-    struct * matrix m = new_matrix(4, 4);
+    struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
     double sine = sin(theta);
@@ -118,10 +118,11 @@ void print_matrix(struct matrix *m) {
     int cols = m -> cols;
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            printf("%f ", matrix[row][col]);
+            printf("| %-6.2f", matrix[row][col]);
         }
-        printf("\n");
+        printf("|\n");
     }
+    printf("\n");
 }//end print_matrix
 
 /*-------------- void ident() --------------
