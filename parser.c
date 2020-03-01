@@ -115,10 +115,10 @@ void parse_file(char * filename,
                 token = strtok(NULL, " ");
             }
 
-            int x, y, z;
-            sscanf(args[0], "%d", &x);
-            sscanf(args[1], "%d", &y);
-            sscanf(args[2], "%d", &z);
+            double x, y, z;
+            sscanf(args[0], "%le", &x);
+            sscanf(args[1], "%le", &y);
+            sscanf(args[2], "%le", &z);
 
             struct matrix * scale = make_scale(x, y, z);
             matrix_mult(scale, transform);
@@ -134,10 +134,10 @@ void parse_file(char * filename,
                 token = strtok(NULL, " ");
             }
 
-            int x, y, z;
-            sscanf(args[0], "%d", &x);
-            sscanf(args[1], "%d", &y);
-            sscanf(args[2], "%d", &z);
+            double x, y, z;
+            sscanf(args[0], "%le", &x);
+            sscanf(args[1], "%le", &y);
+            sscanf(args[2], "%le", &z);
 
             struct matrix * translate = make_translate(x, y, z);
             matrix_mult(translate, transform);
