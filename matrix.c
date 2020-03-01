@@ -25,9 +25,9 @@ struct matrix * make_translate(double x, double y, double z) {
     struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
-    matrix[0][0] = x;
-    matrix[1][1] = y;
-    matrix[2][2] = z;
+    matrix[0][3] = x;
+    matrix[1][3] = y;
+    matrix[2][3] = z;
     return m;
 }
 
@@ -42,9 +42,9 @@ struct matrix * make_scale(double x, double y, double z) {
     struct matrix * m = new_matrix(4, 4);
     double ** matrix = m -> m;
     ident(m);
-    matrix[0][3] = x;
-    matrix[1][3] = y;
-    matrix[2][3] = z;
+    matrix[0][0] = x;
+    matrix[1][1] = y;
+    matrix[2][2] = z;
     return m;
 }
 
@@ -81,7 +81,7 @@ struct matrix * make_rotY(double theta) {
     double cosine = cos(theta);
     matrix[0][0] = cosine;
     matrix[0][2] = sine;
-    matrix[0][2] = -1 * sine;
+    matrix[2][0] = -1 * sine;
     matrix[2][2] = cosine;
     return m;
 }

@@ -125,6 +125,8 @@ void save_extension( screen s, char *file) {
         fprintf(f, "\n");
     }
     pclose(f);
+
+    printf("\nSaved as %s\n", file);
 }
 
 

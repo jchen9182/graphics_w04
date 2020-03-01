@@ -59,13 +59,124 @@ void parse_file(char * filename,
     FILE *f;
     char line[256];
     clear_screen(s);
+    int SIZE = 100;
+    color c;
+    change_color(&c, 0, 0 , 0);
 
     if (strcmp(filename, "stdin") == 0) f = stdin;
     else f = fopen(filename, "r");
 
+    char lines[SIZE][256];
+    int counter = 0;
     while (fgets(line, 255, f) != NULL) {
         line[strlen(line)-1]='\0';
-        printf(":%s:\n",line);
+        strcpy(lines[counter++], line);
+    }
+    while (counter < SIZE) {
+        strcpy(lines[counter++], "\0");
     }
 
+    for (int i = 0; i < SIZE; i++) {
+        if (!strcmp(lines[i], "\0")) break;
+        if (!strcmp(lines[i], "quit")) break;
+
+        else if (!strcmp(lines[i], "ident")) ident(transform);
+
+        else if (!strcmp(lines[i], "apply")) matrix_mult(transform, edges);
+
+        else if (!strcmp(lines[i], "line")) {
+            char args[6][16];
+            int ctr = 0;
+            char *token = strtok(lines[++i], " ");
+
+            while (token != NULL) {
+                strcpy(args[ctr++], token);
+                token = strtok(NULL, " ");
+            }
+
+            int x0, y0, z0, x1, y1, z1;
+            sscanf(args[0], "%d", &x0);
+            sscanf(args[1], "%d", &y0);
+            sscanf(args[2], "%d", &z0);
+            sscanf(args[3], "%d", &x1);
+            sscanf(args[4], "%d", &y1);
+            sscanf(args[5], "%d", &z1);
+
+            add_edge(edges, x0, y0, z0, x1, y1, z1);
+        }
+
+        else if (!strcmp(lines[i], "scale")) {
+            char args[3][16];
+            int ctr = 0;
+            char *token = strtok(lines[++i], " ");
+
+            while (token != NULL) {
+                strcpy(args[ctr++], token);
+                token = strtok(NULL, " ");
+            }
+
+            int x, y, z;
+            sscanf(args[0], "%d", &x);
+            sscanf(args[1], "%d", &y);
+            sscanf(args[2], "%d", &z);
+
+            struct matrix * scale = make_scale(x, y, z);
+            matrix_mult(scale, transform);
+        }
+
+        else if (!strcmp(lines[i], "move")) {
+            char args[3][16];
+            int ctr = 0;
+            char *token = strtok(lines[++i], " ");
+
+            while (token != NULL) {
+                strcpy(args[ctr++], token);
+                token = strtok(NULL, " ");
+            }
+
+            int x, y, z;
+            sscanf(args[0], "%d", &x);
+            sscanf(args[1], "%d", &y);
+            sscanf(args[2], "%d", &z);
+
+            struct matrix * translate = make_translate(x, y, z);
+            matrix_mult(translate, transform);
+        }
+
+        else if (!strcmp(lines[i], "rotate")) {
+            char args[2][16];
+            int ctr = 0;
+            char *token = strtok(lines[++i], " ");
+
+            while (token != NULL) {
+                strcpy(args[ctr++], token);
+                token = strtok(NULL, " ");
+            }
+
+            int angle;
+            sscanf(args[1], "%d", &angle);
+            double rad = angle * M_PI / 180;
+            char *axis = args[0];
+            
+            struct matrix * rotate;
+            if (!strcmp("x", axis)) rotate = make_rotX(rad);
+            else if (!strcmp("y", axis)) rotate = make_rotY(rad);
+            else if (!strcmp("z", axis)) rotate = make_rotZ(rad);
+
+            matrix_mult(rotate, transform);
+        }
+
+        else if (!strcmp(lines[i], "display")) {
+            clear_screen(s);
+            draw_lines(edges, s, c);
+            display(s);
+        }
+
+        else if (!strcmp(lines[i], "save")) {
+            clear_screen(s);
+            draw_lines(edges, s, c);
+            char * arg = lines[++i];
+            save_extension(s, arg);
+        }
+    }
 }
